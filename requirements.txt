@@ -1,0 +1,19 @@
+# Dépendances principales
+numpy>=2.3.4,<3.0.0
+pandas>=2.3.3,<3.0.0
+matplotlib>=3.10.7,<4.0.0
+mlflow>=3.5.1,<4.0.0
+faiss>=1.5.3,<2.0.0
+mistral>=21.0.0,<22.0.0
+langchain>=1.0.2,<2.0.0
+joblib>=1.5.2,<2.0.0
+pipeline>=0.1.0,<0.2.0
+seaborn>=0.13.2,<0.14.0
+snakeviz>=2.2.2,<3.0.0
+scikit-learn>=1.7.2,<2.0.0
+transformers>=4.57.1,<5.0.0
+ensemble>=0.0.dev1,<0.1
+
+# Dépendances de développement
+pytest>=8.4.1,<9.0.0
+jupyter>=1.1.1,<2.0.0

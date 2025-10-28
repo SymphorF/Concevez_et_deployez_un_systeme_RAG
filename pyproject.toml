@@ -1,0 +1,38 @@
+[project]
+name = "concevez-et-deployez-un-systeme-rag"
+version = "0.1.0"
+description = "Conception et déployment d'un système RAG en créant un chatbot intelligent et fonctionnel"
+authors = [
+    {name = "Symphor FONKOU"}
+]
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "numpy (>=2.3.4,<3.0.0)",
+    "pandas (>=2.3.3,<3.0.0)",
+    "matplotlib (>=3.10.7,<4.0.0)",
+    "mlflow (>=3.5.1,<4.0.0)",
+    "mistral (>=21.0.0,<22.0.0)",
+    "langchain (>=1.0.2,<2.0.0)",
+    "joblib (>=1.5.2,<2.0.0)",
+    "pipline (>=0.0,<0.1)",
+    "seaborn (>=0.13.2,<0.14.0)",
+    "snakeviz (>=2.2.2,<3.0.0)",
+    "scikit-learn (>=1.7.2,<2.0.0)",
+    "transformers (>=4.57.1,<5.0.0)",
+    "ensemble (>=0.0.dev1,<0.1)",
+    "langchain-community (>=0.4.1,<0.5.0)",
+    "faiss-cpu (>=1.12.0,<2.0.0)",
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+jupyter = "^1.1.1"
+ipykernel = "^7.1.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

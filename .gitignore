@@ -1,0 +1,14 @@
+# Ignorer le dossier des données brutes
+
+Cours sur les Systèmes RAG/
+
+.ipynb_checkpoints/
+.venv
+
+# Ignorer certains types de fichiers lourds
+
+*.csv
+
+# Exceptions : ne pas ignorer ces fichiers précis
+
+!client_unique_test.json
