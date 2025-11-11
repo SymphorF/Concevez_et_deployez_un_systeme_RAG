@@ -3,12 +3,13 @@
 Cours sur les Systèmes RAG/
 
 .ipynb_checkpoints/
-.venv
+.venv/
 
 # Ignorer certains types de fichiers lourds
 
 *.csv
+*.env
 
 # Exceptions : ne pas ignorer ces fichiers précis
 
-!client_unique_test.json
+!Mettre le nom du fichier après le point d'exclamation
