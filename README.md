@@ -87,13 +87,13 @@ Vous pouvez simuler une installation propre avec :
 
     Collecte les données brutes depuis les sources externes :
 
-    python 000_data_collected.py
+    python data_collected.py
 
 ### 2️⃣ Génération des embeddings
 
     Génère les embeddings sur les colonnes de description :
 
-    python 010_generate_embeddings.py
+    python generate_embeddings.py
 
 
 ***💡 Astuce :***
@@ -104,25 +104,25 @@ Vous pouvez simuler une installation propre avec :
 
     En cas d’arrêt ou d’erreur pendant le processus, reprends le traitement avec :
 
-    python 011_resume_embeddings.py
+    python resume_embeddings.py
 
 ### 3️⃣ Indexation FAISS et ajout des métadonnées
 
     Indexe les embeddings et ajoute les métadonnées dans FAISS :
 
-    python 020_index_faiss_metadatas.py
+    python index_faiss_metadatas.py
 
 ### 4️⃣ Liaison FAISS + LangChain et tests locaux
 
     Teste le fonctionnement du système RAG en local :
 
-    python 030_rag_langchain_faiss.py
+    python rag_langchain_faiss.py
 
 ### 5️⃣ Démarrage de la démo FastAPI
 
     Lance le serveur FastAPI avec :
 
-    uvicorn 040_rag_fast_api:app --reload
+    uvicorn rag_fast_api:app --reload
 
 
 Ensuite, ouvrez le navigateur à l’adresse suivante :
@@ -133,12 +133,11 @@ Ensuite, ouvrez le navigateur à l’adresse suivante :
 
 Sur l’interface Swagger (/docs), tu disposes de trois endpoints principaux 👇
 
-| Endpoint   | Méthode         | Description                                                                                                     |
-| ---------- | --------------- | --------------------------------------------------------------------------------------------------------------- |
-| `/search`  | `POST`          | Recherche sémantique d’un événement                                                                             |
-| `/ask`     | `POST`          | Génère une réponse détaillée et cohérente à propos d’un événement                                               |
-| `/rebuild` | `POST` ou `GET` | Relance l’ensemble du pipeline : collecte des données, mise à jour des métadonnées, embeddings et index FAISS 
-(pour garantir des données à jour) |
+| Endpoint   | Méthode         | Description                                                                                                         |
+| ---------- | --------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `/search`  | `POST`          | Recherche sémantique d’un événement                                                                                 |
+| `/ask`     | `POST`          | Génère une réponse détaillée et cohérente à propos d’un événement                                                   |
+| `/rebuild` | `POST` ou `GET` | Relance l’ensemble du pipeline : collecte des données, mise à jour des métadonnées, embeddings et index FAISS (pour garantir des données à jour) |
 
 
 **🧠 Stack technique utilisée**
@@ -167,110 +166,76 @@ Sur l’interface Swagger (/docs), tu disposes de trois endpoints principaux �
 
     Un test fonctionnel via un fichier api_test.py
 
+### 7. Docker
+
+Voici le workflow résumé :
+
+- Builder l’image Docker (crée l’image avec l'application et ses dépendances) :
+
+docker build -t rag_api .
+
+- Lancer un conteneur à partir de l’image (exécuter l'app en arrière-plan, mapper le port 8000 du conteneur vers le PC) :
+
+docker run -d -p 8001:8001 --name rag_container rag_api:latest
+
+- Accéder à l’API via le navigateur (FastAPI fournit automatiquement la documentation interactive Swagger) :
+
+http://localhost:8001/docs (bien sûre en utilisant le post correct pour visualiser, dans ce exple c'est le port 8000)
 
 
+**💡 Astuce :**
 
+***Pour voir toutes les commandes docker***
 
+docker
 
+***Pour vérifier les images existantes***
 
+docker images
 
+***Pour supprimer l'image par son ID***
 
+docker rmi 64c54753a78a (son ID)
 
+***OU par son nom et tag***
 
+docker rmi fastapirag-app:latest (son tag)
 
+***Si l'image est utilisée par un conteneur (même arrêté), forcer la suppression***
 
+docker rmi -f 64c54753a78a (son ID)
 
+***Pour inspecter les logs du conteneur pour voir ce qui se passe :***
 
+docker logs -f fastapi-app
 
+***Pour visualiser la liste des contenair et les ports déjà utilisé par docker***
 
-    
-## 🎯 Objectif du projet (création d’un assistant intelligent pour recommander des événements culturels avec un système RAG)
+docker ps
 
-**Creer un nouvel environnement virtuel python**
+***Pour arrêter un conteneur en particulier***
 
-Étapes :
+docker stop nom_du_conteneur (exp: docker stop eager_jemison)
+docker rm nom_du_conteneur (exp: docker rm eager_jemison)
 
-Ouvre ton dossier de projet dans VS Code.
+***Pour arrêter tous les conteneurs en même temps:***
 
-Ouvre le terminal intégré :
+docker stop $(docker ps -q)
 
-Raccourci : Ctrl + ù (ou Ctrl + J)
+***Pour supprimer tous les conteneurs (libérer les ports):***
 
-ou menu : Affichage > Terminal
+docker rm $(docker ps -aq)
 
-Tape la commande suivante :
+***Pour nettoyer tout le système Docker (arrêter tous les conteneurs, toutes les images non utilisées...):***
 
-python -m venv .venv
+docker system prune -a
 
+***Pour visualiser l'ensemble des images créées sur docker***
 
-👉 Cela crée un dossier .venv (ou le nom que tu veux) contenant ton environnement virtuel.
+docker images
 
-Active-le selon ton système d’exploitation :
+***Pour supprimer une image***
 
-**Windows :**
+docker rmi id_image (exp docker rmi c111c74738e7)
 
-.venv\Scripts\activate
-
-
-**🍎 macOS / Linux :**
-
-source .venv/bin/activate
-
-
-(Optionnel) Vérifie que l’environnement est bien activé :
-
-where python      # Windows
-which python      # macOS/Linux
-
-
-Tu dois voir le chemin pointant vers ton dossier .venv.
-
-Installe ensuite tes dépendances :
-
-pip install numpy pandas fastapi
-
-4. 💻 Vérification finale sur une “installation propre” 
-
-Tu peux simuler une nouvelle machine en exécutant : 
-
-- poetry env remove python 
-- poetry install 
-- poetry run python test_imports.py
-
-
-
-### ETAPES
-
-Avant toute chose déplacez vous dans votre environnement et à la racine du projet
-
-bash 
-
-    C:\Users\...\Concevez_et_deployez_un_systeme_RAG>
-
-    poetry shell (pour activer votre environnement virtuel)
-
-    cd scripts
-
-1- Collectez les données avec data_collected : ***python 000_data_collected.py***
-2- Géneration des embeddings sur les colonnes de description : ***python 010_generate_embeddings.py*** 
-    Pour éffectuer un test sur quelques lignes avant de faire sur l'ensemble switcher MODE_TEST en True et mettez le nombre de ligne à tester sur TEST_SIZE
-    En cas de bug ou d'arrêt du code en cours, reprendre là où on en était : ***python 011_resume_embeddings.py***
-3- Indexez les embeddings des nouvelles colonnes embéddées avec FAISS ET ajoutez les métadonnées : ***python 020_index_faiss_metadatas.py***
-
-4- Faites la liaison entre les index et langchain pour la recherche sementique et lancez quelques tests en local : ***python 030_rag_langchain_faiss.py***
-
-5- Lancez une démo sur FastAPI : ***uvicorn 040_rag_fast_api:app --reload*** 
-        ouvrir le lien et rajouter "/docs" puis entrer
-6- Sur l'interface FastAPI, testez les endpoints :
-            - Search : pour éffectuer une recherche sémentique d'un évemenent
-            - Ask : pour avoir une réponse cohérente et détaillée à propos d'un événement
-            - Rebuild : pour relancer le process depuis la recupération des données sur CalandarEvents et la mise à jour des métadonnées, embeddings et index (afin de pouvoir travailler sur des données à jour)
-
-
-
-
-
-
-
-
-
+Pensez à supprimer d'abord le conteneur utilisant cette image avant de la supprimer (voir méthode ci-dessus)
