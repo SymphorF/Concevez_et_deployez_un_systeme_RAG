@@ -152,6 +152,8 @@ print(f"🏙️ {len(available_cities)} villes détectées.")
 # ==============================
 # 5️⃣ Routes principales
 # ==============================
+
+
 @app.get("/")
 def read_root():
     return {
@@ -374,6 +376,15 @@ def rebuild_indexes(background_tasks: BackgroundTasks):
         "status": "success", 
         "message": "Reconstruction lancée avec échantillonnage (1000 événements)",
         "duration": "~5-10 minutes estimées"
+    }
+
+@app.get("/health")
+def health_check():
+    """Vérification de l'état de l'API."""
+    return {
+        "status": "healthy",
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "indexes_loaded": True
     }
     
 # ==============================
