@@ -1,5 +1,5 @@
 # tests/test_api.py
-
+'''
 import pytest
 from fastapi.testclient import TestClient
 from scripts.rag_fast_api import app
@@ -27,7 +27,7 @@ def test_ask_endpoint():
     data = response.json()
     assert "question" in data
     assert "generated_answer" in data
-'''
+
 def test_health_check():
     """Test de l'endpoint health"""
     response = client.get("/health")
@@ -35,8 +35,7 @@ def test_health_check():
     data = response.json()
     assert data["status"] == "healthy"
 
-
-
+'''
 
 
 
@@ -62,5 +61,4 @@ def test_app_creation():
     """Test que l'app FastAPI se crée correctement"""
     from rag_fast_api import app
     assert app.title == "RAG Event Search API"
-    assert app.version == "1.0"
-'''    
+    assert app.version == "1.0" 

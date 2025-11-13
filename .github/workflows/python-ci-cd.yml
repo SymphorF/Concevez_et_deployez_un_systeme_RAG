@@ -35,14 +35,27 @@ jobs:
       - name: Test API startup
         run: |
           cd scripts
-          timeout 30s poetry run uvicorn rag_fast_api:app --host 0.0.0.0 --port 8000 &
-          sleep 10
-          curl -f http://localhost:8000/health || exit 1
+          # Démarrer l'API en arrière-plan
+          poetry run uvicorn rag_fast_api:app --host 0.0.0.0 --port 8000 &
+          API_PID=$!
+          
+          # Attendre le démarrage
+          sleep 15
+          
+          # Tester la route racine (qui existe)
+          curl -f http://localhost:8000/ || exit 1
+          
+          # Arrêter l'API
+          kill $API_PID
 
-      - name: Test with curl
+      - name: Test search endpoint
         run: |
-          curl -f http://localhost:8000/
-          curl -f "http://localhost:8000/search?query=test&k=1"
-
-
-
+          cd scripts
+          poetry run uvicorn rag_fast_api:app --host 0.0.0.0 --port 8000 &
+          API_PID=$!
+          sleep 15
+          
+          # Tester la recherche (sans ville spécifique pour éviter les filtres)
+          curl -f "http://localhost:8000/search?query=concert&k=1" || exit 1
+          
+          kill $API_PID
