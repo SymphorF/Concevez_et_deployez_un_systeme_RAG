@@ -1,6 +1,6 @@
-# 🤖 Assistant intelligent de recommandation d’événements culturels (Système RAG)
+# Assistant intelligent de recommandation d’événements culturels (Système RAG)
 
-## 🎯 Objectif du projet
+## Objectif du projet
 
 ***Ce projet a pour but de concevoir et déployer un assistant intelligent capable de recommander des événements culturels à partir d’une base de données.***
 
