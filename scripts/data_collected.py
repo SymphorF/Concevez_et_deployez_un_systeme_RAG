@@ -1,4 +1,3 @@
-
 # Script récupération des données OpenAgenda 10K events (valeurs manquantes gérées)
 # data_collected.py
 # scripts/data_collected.py

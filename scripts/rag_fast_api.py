@@ -15,7 +15,7 @@ from mistralai.models import SDKError
 from langchain_community.vectorstores import FAISS
 from langchain_community.docstore.in_memory import InMemoryDocstore
 from langchain_core.embeddings import Embeddings
-from config import MISTRAL_API_KEY
+from app_config import MISTRAL_API_KEY
 from fastapi import BackgroundTasks
 from pydantic import BaseModel
 from fastapi import Body

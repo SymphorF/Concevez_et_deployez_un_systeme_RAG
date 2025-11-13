@@ -7,7 +7,7 @@ import numpy as np
 from tqdm import tqdm
 from mistralai import Mistral
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from config import MISTRAL_API_KEY
+from app_config import MISTRAL_API_KEY
 
 # === Configuration ===
 INPUT_CSV = "data/processed/events_clean_20251103_1212.csv"
@@ -143,7 +143,7 @@ import numpy as np
 from tqdm import tqdm
 from mistralai import Mistral
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from config import MISTRAL_API_KEY
+from app_config import MISTRAL_API_KEY
 
 # === Configuration ===
 INPUT_CSV = "data/processed/events_clean_20251103_1212.csv"
@@ -271,7 +271,7 @@ import time
 from tqdm import tqdm
 from mistralai import Mistral
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from config import MISTRAL_API_KEY
+from app_config import MISTRAL_API_KEY
 
 # === Configuration ===
 INPUT_CSV = "data/processed/events_with_embeddings.csv"  # Ton fichier existant
