@@ -9,9 +9,9 @@ services:
     ports:
       - "8001:8001"
     volumes:
-      - ./scripts:/app/scripts  # ← scripts/ contient config.py
+      - ./scripts:/app/scripts  # ← scripts/ contient app_config.py
       - ./data:/app/data
-      - ./.env:/app/.env  # ← .env dans scripts/ pour config.py
+      - ./.env:/app/.env  # ← .env dans scripts/ pour app_config.py
     environment:
       - PYTHONUNBUFFERED=1
       - PYTHONDONTWRITEBYTECODE=1
