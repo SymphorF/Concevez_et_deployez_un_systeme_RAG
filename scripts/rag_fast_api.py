@@ -386,7 +386,7 @@ def health_check():
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "indexes_loaded": True
     }
-    
+
 # ==============================
 # 6️⃣ Lancement local
 # ==============================

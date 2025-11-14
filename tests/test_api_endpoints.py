@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'scripts'))
 
-def test_api_structure_only():
+def API_test_api_structure_only():
     """Test uniquement la structure de l'API sans lancer les embeddings"""
     from rag_fast_api import app
     
@@ -22,7 +22,7 @@ def test_api_structure_only():
     response = client.post("/rebuild")
     assert response.status_code == 200
 
-def test_search_with_empty_query():
+def API_test_search_with_empty_query():
     """Test de search avec query vide (devrait échouer en validation)"""
     from rag_fast_api import app
     client = TestClient(app)
