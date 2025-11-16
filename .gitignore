@@ -4,6 +4,7 @@ Cours sur les Systèmes RAG/
 
 .ipynb_checkpoints/
 .venv/
+__pycache__
 
 # Ignorer certains types de fichiers lourds
 

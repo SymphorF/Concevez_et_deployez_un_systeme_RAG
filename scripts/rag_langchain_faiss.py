@@ -3,9 +3,6 @@
 # rag_langchain_faiss.py avec détection automatique des villes
 # === rag_langchain_faiss.py ===
 
-# === rag_langchain_faiss.py ===
-# Version avec détection automatique des villes présentes dans l'index
-
 import os
 import faiss
 import pickle
