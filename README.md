@@ -74,7 +74,7 @@ Vous pouvez simuler une installation propre avec :
 
 ## 🚀 Étapes du projet
 
-    Avant toute manipulation, assure-toi d’être dans ton environnement virtuel et à la racine du projet.
+    Avant toute manipulation, assurez-vous d’être dans ton environnement virtuel et à la racine du projet.
 
     C:\Users\...\Concevez_et_deployez_un_systeme_RAG>
 
@@ -98,29 +98,29 @@ Vous pouvez simuler une installation propre avec :
 
 ***💡 Astuce :***
 
-    Pour tester sur un échantillon limité, mets MODE_TEST = True
+    Pour tester sur un échantillon limité, mettez MODE_TEST = True
 
     Défini TEST_SIZE pour le nombre de lignes à traiter
 
-    En cas d’arrêt ou d’erreur pendant le processus, reprends le traitement avec :
+    En cas d’arrêt ou d’erreur pendant le processus, reprennez le traitement avec :
 
     python resume_embeddings.py
 
 ### 3️⃣ Indexation FAISS et ajout des métadonnées
 
-    Indexe les embeddings et ajoute les métadonnées dans FAISS :
+    Indexez les embeddings et ajoutez les métadonnées dans FAISS :
 
     python index_faiss_metadatas.py
 
 ### 4️⃣ Liaison FAISS + LangChain et tests locaux
 
-    Teste le fonctionnement du système RAG en local :
+    Testez le fonctionnement du système RAG en local :
 
     python rag_langchain_faiss.py
 
 ### 5️⃣ Démarrage de la démo FastAPI
 
-    Lance le serveur FastAPI avec :
+    Lancez le serveur FastAPI avec :
 
     uvicorn rag_fast_api:app --reload
 
@@ -131,13 +131,15 @@ Ensuite, ouvrez le navigateur à l’adresse suivante :
 
 ### 6️⃣ Test des endpoints FastAPI
 
-Sur l’interface Swagger (/docs), tu disposes de trois endpoints principaux 👇
+Sur l’interface Swagger (/docs), vous disposez de cinq endpoints principaux 👇
 
 | Endpoint   | Méthode         | Description                                                                                                         |
 | ---------- | --------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `/search`  | `POST`          | Recherche sémantique d’un événement                                                                                 |
+| `/`        | `GET`           | Message d'acceuil du RAG                                                                                            |
+| `/healt`   | `GET`           | Vérifie l'état de l'API                                                                                             |
+| `/search`  | `GET`           | Recherche sémantique d’un événement                                                                                 |
 | `/ask`     | `POST`          | Génère une réponse détaillée et cohérente à propos d’un événement                                                   |
-| `/rebuild` | `POST` ou `GET` | Relance l’ensemble du pipeline : collecte des données, mise à jour des métadonnées, embeddings et index FAISS (pour garantir des données à jour) |
+| `/rebuild` | `POST`          | Relance l’ensemble du pipeline : collecte des données, mise à jour des métadonnées, embeddings et index FAISS (pour garantir des données à jour) |
 
 
 **🧠 Stack technique utilisée**

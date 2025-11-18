@@ -217,6 +217,97 @@ def search_events(
         print(f"❌ Erreur: {e}")
         return {"error": str(e), "results": []}
 
+
+
+
+
+'''
+@app.post("/ask")
+def ask_question(request: AskRequest):
+    """Pose une question au système RAG et renvoie une réponse générée."""
+    query = request.question
+    k = request.k
+    city, date_min, date_max = parse_query(query, available_cities)
+
+    # Recherche sémantique
+    results_short = vs_short.similarity_search_with_score(query, k=k)
+    results_long = vs_long.similarity_search_with_score(query, k=k)
+    all_results = results_short + results_long
+    all_results.sort(key=lambda x: x[1])
+
+    filtered = filter_results(all_results, city, date_min, date_max)
+    
+    # Préparation des sources avec métadonnées
+    sources = []
+    for doc, score in filtered[:k]:
+        source_info = {
+            "content": doc.page_content,
+            "score": float(score),
+            "metadata": doc.metadata
+        }
+        sources.append(source_info)
+    
+    context = "\n\n".join([doc.page_content for doc, _ in filtered[:k]])
+
+    # 🔹 Génération de réponse augmentée avec gestion d'erreurs et fallback
+    response_text = None
+    max_retries = 3
+    wait_time = 2
+    model = "mistral-large-latest"
+
+    for attempt in range(max_retries):
+        try:
+            completion = embedding_function.client.chat.complete(
+                model=model,
+                messages=[
+                    {"role": "system", "content": "Tu es un assistant culturel. Donne une réponse claire, concise et utile."},
+                    {"role": "user", "content": f"Question: {query}\n\nContexte:\n{context}"}
+                ],
+            )
+
+            response_text = completion.choices[0].message.content
+            break
+
+        except SDKError as e:
+            err = str(e)
+            if "429" in err or "capacity_exceeded" in err:
+                print(f"⚠️ Saturation du modèle ({model}), tentative {attempt+1}/{max_retries} — attente {wait_time}s")
+                time.sleep(wait_time)
+                wait_time *= 2
+                if attempt == max_retries - 1 and model == "mistral-large-latest":
+                    print("⏬ Passage au modèle de secours : mistral-small-latest")
+                    model = "mistral-small-latest"
+                    attempt = 0
+                    wait_time = 2
+                    continue
+            else:
+                response_text = f"Erreur API : {err}"
+                break
+        except Exception as e:
+            response_text = f"Erreur inattendue : {str(e)}"
+            break
+
+    # Si aucune réponse n'a pu être générée
+    if not response_text:
+        response_text = "Désolé, je n'ai pas pu générer de réponse pour le moment. Réessaie un peu plus tard."
+
+    return {
+        "question": query,
+        "city_detected": city,
+        "answer": response_text.strip(),  # 🔹 Réponse principale
+        "sources": sources,  # 🔹 Sources détaillées séparées
+        "sources_count": len(sources),
+        "debug_info": {
+            "results_used": len(filtered),
+            "total_results_found": len(all_results)
+        }
+    }
+
+'''
+
+
+
+
 @app.post("/ask")
 def ask_question(request: AskRequest):
     """Pose une question au système RAG et renvoie une réponse générée."""
