@@ -284,7 +284,6 @@ def ask_question(request: AskRequest):
         "generated_answer": response_text.strip()
     }
 
-
 @app.post("/rebuild")
 def rebuild_indexes(background_tasks: BackgroundTasks):
     """

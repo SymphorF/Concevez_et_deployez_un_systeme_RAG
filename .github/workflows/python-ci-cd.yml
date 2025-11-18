@@ -1,4 +1,5 @@
 name: API RAG
+
 on:
   push:
     branches: [ "main" ]
@@ -9,18 +10,36 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
+      # Étape : libérer ~20 Go d’espace
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache
+          sudo docker system prune -af || true
+          sudo docker volume prune -f || true
+          echo "Disk space after cleanup:"
+          df -h
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
+
+      # Empêcher Poetry de créer un environnement dans ~/ (trop volumineux)
+      - name: Configure Poetry
+        run: |
+          poetry config virtualenvs.in-project true
 
       - name: Install dependencies
         run: |
           pip install poetry
-          poetry install
+          poetry install --no-root
 
       - name: Set environment variables
         run: |
@@ -35,17 +54,10 @@ jobs:
       - name: Test API startup
         run: |
           cd scripts
-          # Démarrer l'API en arrière-plan
           poetry run uvicorn rag_fast_api:app --host 0.0.0.0 --port 8000 &
           API_PID=$!
-          
-          # Attendre le démarrage
           sleep 15
-          
-          # Tester la route racine (qui existe)
           curl -f http://localhost:8000/ || exit 1
-          
-          # Arrêter l'API
           kill $API_PID
 
       - name: Test search endpoint
@@ -54,8 +66,5 @@ jobs:
           poetry run uvicorn rag_fast_api:app --host 0.0.0.0 --port 8000 &
           API_PID=$!
           sleep 15
-          
-          # Tester la recherche (sans ville spécifique pour éviter les filtres)
           curl -f "http://localhost:8000/search?query=concert&k=1" || exit 1
-          
           kill $API_PID
