@@ -217,7 +217,6 @@ def search_events(
         print(f"❌ Erreur: {e}")
         return {"error": str(e), "results": []}
 
-
 @app.post("/ask")
 def ask_question(request: AskRequest):
     """Pose une question au système RAG et renvoie une réponse générée."""
