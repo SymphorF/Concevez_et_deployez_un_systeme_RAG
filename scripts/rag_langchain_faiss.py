@@ -2,7 +2,7 @@
 
 # rag_langchain_faiss.py avec détection automatique des villes
 # === rag_langchain_faiss.py ===
-
+ 
 import os
 import faiss
 import pickle

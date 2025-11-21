@@ -168,7 +168,23 @@ Sur l’interface Swagger (/docs), vous disposez de cinq endpoints principaux �
 
     Un test fonctionnel via un fichier api_test.py
 
-### 7. Docker
+### 7. Streamlit (Si vous souhaitez tester l'application en temps réel avec interface utilisateur)
+
+    Splitez votre terminal en deux et déplacer vous dans les scripts dans les deux terminaux
+
+      cd scripts
+
+    Dans le premier terminal lancez l'app via fast_api pour la charger
+
+      uvicorn rag_fast_api:app --reload --port 8000
+
+    Dans le second terminal lancer streamlit 
+
+      streamlit run streamlit_app.py
+
+    Vous pouvez maintenant posez des questions directement dans la barre de conversation  
+
+### 8. Docker
 
 Voici le workflow résumé :
 
